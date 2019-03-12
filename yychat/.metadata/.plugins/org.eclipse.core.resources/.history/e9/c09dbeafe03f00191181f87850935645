@@ -1,0 +1,44 @@
+package JIYING.view;
+
+import java.awt.*;
+
+import javax.swing.*;
+
+public class MyFriendList extends JFrame{
+
+	JPanel myFriendPanel,myFriendListJPanel,myStrangerBlackListPanel;
+	JButton myFriendButton,myStrangerButton,myBlackListButton;
+	JScrollPane myFriendListJScrollPane;
+	public static final int MYFRIENDCOUNT=51;
+	JLabel[] myFriendJLabel=new JLabel[MYFRIENDCOUNT];
+	
+	
+	public MyFriendList(){
+		
+		
+		
+		myFriendPanel=new JPanel(new BorderLayout());
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
