@@ -97,10 +97,7 @@ public class ClientLogin extends JFrame implements ActionListener{//类名：Client
 				mess1.setSender(userName);
 				mess1.setReceiver("Server");
 				mess1.setMessageType(Message.message_RequestOnlineFriend);
-				Message mess2=new Message();
-				mess2.setSender(userName);
-				mess2.setReceiver("Server");
-				mess2.setContent(userName);
+				
 				Socket s=(Socket)ClientConnetion.hmSocket.get(userName);
 				ObjectOutputStream oos;
 				try{
@@ -110,9 +107,21 @@ public class ClientLogin extends JFrame implements ActionListener{//类名：Client
 					e.printStackTrace();
 				}
 				
+				Message mess2=new Message();
+				mess2.setSender(userName);
+				mess2.setReceiver("Server");
+				mess2.setContent(userName);		
+				mess2.setMessageType(Message.message_LoginSignal);
+								
+				try{
+					oos=new ObjectOutputStream(s.getOutputStream());
+					oos.writeObject(mess2);
+				} catch(IOException e){
+					e.printStackTrace();
+				}
 				this.dispose();
 			}else{
-				JOptionPane.showMessageDialog(this, "密码错误");
+				JOptionPane.showMessageDialog(this, "用户名或密码错误");
 			}			
 			
 			

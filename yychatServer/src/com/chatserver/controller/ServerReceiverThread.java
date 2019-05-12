@@ -43,32 +43,60 @@ public class ServerReceiverThread extends Thread{//必须要有run()方法
 				//第2步骤，返回在线好友信息到客户端
 				if(mess.getMessageType().equals(Message.message_RequestOnlineFriend)){
 					Socket s2=(Socket)hmSocket.get(mess.getReceiver());
+
+					Set friendSet=StartServer.hmSocket.keySet();
+					Iterator it=friendSet.iterator();
+					String friendName;
+					String friendString="";
+					while(it.hasNext()){
+						friendName=(String)it.next();
+						if(!friendName.equals(mess.getSender()))
+							friendString=friendName+" "+friendString;							
+				    }
+					System.out.println("全部好友名字:"+friendString);
+					
+					mess.setContent(friendString);
+					mess.setReceiver(sender);
+					mess.setSender("Server");
+					mess.setMessageType(Message.message_OnlineFriend);
+					
+					Socket s1=(Socket)hmSocket.get(sender);
+					sendMessage(s1,mess);	
 					
 				}
 			
-				Set friendSet=StartServer.hmSocket.keySet();
-				Iterator it=friendSet.iterator();
-				String friendName;
-				String friendString="";
-				while(it.hasNext()){
-					friendName=(String)it.next();
-					if(!friendName.equals(mess.getSender()))
-						friendString=friendName+" "+friendString;							
-			    }
-				System.out.println("全部好友名字:"+friendString);
 				
-				mess.setContent(friendString);
-				mess.setReceiver(sender);
-				mess.setSender("Server");
-				mess.setMessageType(Message.message_OnlineFriend);
-				
-				Socket s1=(Socket)hmSocket.get(sender);
-				sendMessage(s1,mess);				
+//				//好友上线时的信息转发
+//				
+//				//Message mess1=new Message();
+//				//String userName;
+//				if(mess.getMessageType().equals(Message.message_LoginSignal)){
+//					Socket s2=(Socket)hmSocket.get(mess.getReceiver());
+//				}		
+//				Set friendSet1=StartServer.hmSocket.keySet();
+//				Iterator it1=friendSet1.iterator();
+//				System.out.println(mess);
+//				
+//				mess1.setReceiver(sender);
+//				mess1.setContent(userName);
+//				mess1.setSender("Server");
+//				mess1.setMessageType(Message.message_LoginSignalForWard);
+//				
+//				Socket s2=(Socket)hmSocket.get(sender);
+//				try {
+//					sendMessage(s2,mess1);
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				
 			  } 
 			catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
-			}
+			  }
+			
+			
+			
 		}							
 	}
 

@@ -7,4 +7,5 @@ public interface MessageType {
 	String message_RequestOnlineFriend="3";
 	String message_OnlineFriend="4";
 	String message_LoginSignal="5";
+	String message_Friendrelation="6";
 }

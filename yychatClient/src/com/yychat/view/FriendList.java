@@ -5,9 +5,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;//动作接口
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import javax.swing.*;
+
+import com.yychat.model.Message;
 
 public class FriendList extends JFrame implements ActionListener,MouseListener{//容器,接口
 	public static HashMap hmFriendChat1=new HashMap<String,FriendChat1>();
@@ -20,9 +26,15 @@ public class FriendList extends JFrame implements ActionListener,MouseListener{/
 	
 	JButton myFriendButton;//北部
 	
+	
+	
 	JScrollPane myFriendListJScrollPane;
 	JPanel myFriendListJPanel;
-	public static final int MYFRIENDCOUNT=51;
+	String friendListRelation;
+	public static final int MYFRIENDCOUNT=0;
+	if(mess.getMessageType().equals(Message.message_Friendrelation)){
+		friendListRelation=mess.getContent();
+	}
 	JLabel[] myFriendJLabel=new JLabel[MYFRIENDCOUNT];//50好友数组,对象数组
 	
 	JPanel myStrangerBlackListPanel;
@@ -42,7 +54,7 @@ public class FriendList extends JFrame implements ActionListener,MouseListener{/
 	JButton blackListButton1;
 	
 	String userName;//成员变量
-	public FriendList(String userName){//形参
+	public FriendList(String userName) {//形参
 		this.userName=userName;
 		//创建第一张卡片
 		myFriendPanel = new JPanel(new BorderLayout());//布局的问题,边界布局
@@ -53,11 +65,12 @@ public class FriendList extends JFrame implements ActionListener,MouseListener{/
 		myFriendPanel.add(myFriendButton,"North");
 		
 		//中部
+	    
 		myFriendListJPanel=new JPanel(new GridLayout(MYFRIENDCOUNT-1,1));//网格布局
 		for(int i=1;i<MYFRIENDCOUNT;i++){
 			myFriendJLabel[i]=new JLabel(i+"",new ImageIcon("images/duck.gif"),JLabel.LEFT);
 			myFriendJLabel[i].setEnabled(false);
-			if(Integer.parseInt(userName)==i) myFriendJLabel[i].setEnabled(true);
+			//if(Integer.parseInt(userName)==i) myFriendJLabel[i].setEnabled(true);
 			//myFriendJLabel[Integer.parseInt(userName)].setEnabled(true);
 			myFriendJLabel[i].addMouseListener(this);
 			myFriendListJPanel.add(myFriendJLabel[i]);
@@ -108,6 +121,7 @@ public class FriendList extends JFrame implements ActionListener,MouseListener{/
 		this.setVisible(true);
 	}
 	
+	
 	public static void main(String[] args) {
 		//FriendList friendList=new FriendList("pdh");
 	}
@@ -118,8 +132,10 @@ public class FriendList extends JFrame implements ActionListener,MouseListener{/
 		for(int i=0;i<count;i++){
 			myFriendJLabel[Integer.parseInt(friendName[i])].setEnabled(true);
 		}
+	}	
+	public  void setEnabledNewOnlineFriend(String LoginSignal) {
+		myFriendJLabel[Integer.parseInt(LoginSignal)].setEnabled(true);
 	}
-	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {//响应事件的方法
@@ -148,6 +164,31 @@ public class FriendList extends JFrame implements ActionListener,MouseListener{/
 		}		
 	}
 
+//	public void friendListInformation(String userName) throws ClassNotFoundException, SQLException{
+//		Class.forName("com.mysql.jdbc.Driver");
+//		
+//		String url="jdbc:mysql://127.0.0.1:3306/yychat?useUnicode=true&characterEncoding=UTF-8";
+//		String dbuser="root";
+//		String dbpass="";
+//		Connection conn=DriverManager.getConnection(url, dbuser, dbpass);
+//				
+//		do{String friendList_Sql="select * from friendList where username=? and ID=? and "
+//				+ "friendname=? and friendrelation=?";
+//		PreparedStatement ptmtfriendList=conn.prepareStatement(friendList_Sql);
+//		ptmtfriendList.setString(1,username);
+//		ptmtfriendList.setString(2,ID);
+//		ptmtfriendList.setString(3,friendname);
+//		ptmtfriendList.setString(4,friendrelation);
+//
+//		int i=0;
+//		String[] friendlist=new String[50];
+//		if(username.equals(userName)){
+//			friendlist[i]=friendname+friendrelation;
+//			System.out.println(friendlist[i]);
+//			i++;  }
+//		}while(!ID.equals(null));}
+		
+	
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		JLabel jlbl1=(JLabel)arg0.getSource();

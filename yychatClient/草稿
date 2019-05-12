@@ -1,0 +1,15 @@
+do{String friendList_Sql="select * from friendList where username=? and ID=? and "
+			+ "friendname=? and friendrelation=?";
+	PreparedStatement ptmtfriendList=conn.prepareStatement(friendList_Sql);
+	ptmtfriendList.setString(1,username);
+	ptmtfriendList.setString(2,ID);
+	ptmtfriendList.setString(3,friendname);
+	ptmtfriendList.setString(4,friendrelation);
+
+	int i=0;
+	String[] friendlist=new String[50];
+	if(username.equals(userName)){
+		friendlist[i]=friendname+friendrelation;
+		System.out.println(friendlist[i]);
+		i++;  }
+	}while(!ID.equals(null));

@@ -40,8 +40,15 @@ public class ClientReceiverThread extends Thread{
 				//第3步接收到服务器发送来的在线好友信息，激活对应图标
 				if(mess.getMessageType().equals(Message.message_OnlineFriend)){
 					System.out.println("在线好友:"+mess.getContent());
+				if(!mess.getContent().equals("")){	
 					FriendList friendList=(FriendList)((HashMap) ClientLogin.hmFriendList).get(mess.getReceiver());
-					friendList.setEnabledOnlineFriend(mess.getContent());
+					friendList.setEnabledOnlineFriend(mess.getContent());}
+				}
+				
+				if(mess.getMessageType().equals(Message.message_LoginSignal)){
+					System.out.println("好友登陆:"+mess.getContent());
+					FriendList friendList=(FriendList)((HashMap) ClientLogin.hmFriendList).get(mess.getReceiver());
+					friendList.setEnabledNewOnlineFriend(mess.getContent());
 				}
 				
 			} catch (IOException | ClassNotFoundException e) {

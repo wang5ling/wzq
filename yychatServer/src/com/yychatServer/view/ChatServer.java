@@ -2,6 +2,7 @@ package com.yychatServer.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.*;
 
@@ -41,7 +42,13 @@ public class ChatServer extends JFrame implements ActionListener{//实现接口
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		StartServer myServer;
-		if(arg0.getSource()==jb1) myServer=new StartServer();//监听端口，建立和客户端的连接
+		if(arg0.getSource()==jb1)
+			try {
+				myServer=new StartServer();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}//监听端口，建立和客户端的连接
 		if(arg0.getSource()==jb2) System.exit(0);//退出程序
 		
 		
